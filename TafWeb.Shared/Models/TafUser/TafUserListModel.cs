@@ -1,6 +1,6 @@
-﻿namespace TafWeb.DAL.Entities;
+﻿namespace TafWeb.Shared.Models.TafUser;
 
-public class TafUser : IdentityUser
+public record TafUserListModel
 {
     public string Name { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
@@ -11,12 +11,4 @@ public class TafUser : IdentityUser
     public string InstagramUrl { get; init; } = string.Empty;
     public string LinkedInUrl { get; init; } = string.Empty;
     public string GitHubUrl { get; init; } = string.Empty;
-
-    public override bool Equals(object? obj)
-    {
-        var user = obj as TafUser ?? throw new ArgumentException("obj is not a User");
-        return Id == user.Id;
-    }
-
-    public override int GetHashCode() => HashCode.Combine(Id);
 }

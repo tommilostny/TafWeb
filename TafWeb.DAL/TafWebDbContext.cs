@@ -8,20 +8,9 @@ public class TafWebDbContext : CosmosIdentityDbContext<TafUser, IdentityRole>
     {
     }
 
+    public DbSet<Video> Videos { get; set; }
     public DbSet<VideoCategory> VideoCategories { get; set; }
     public DbSet<AboutUs> AboutUs { get; set; }
-    public DbSet<FormEntry> FormEntries { get; set; }
-
-    //protected override void OnModelCreating(ModelBuilder builder)
-    //{
-    //    base.OnModelCreating(builder);
-    //
-    //    builder.Entity<IdentityRole>()
-    //        .Property(b => b.ConcurrencyStamp)
-    //        .IsETagConcurrency();
-    //
-    //    builder.Entity<TafUser>()
-    //        .Property(b => b.ConcurrencyStamp)
-    //        .IsETagConcurrency();
-    //}
+    public DbSet<OrderFormEntry> FormEntries { get; set; }
+    public DbSet<ClientFeedback> ClientFeedbacks { get; set; }
 }

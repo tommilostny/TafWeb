@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MapperProfiles\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TafWeb.DAL\TafWeb.DAL.csproj" />
+    <ProjectReference Include="..\TafWeb.Shared\TafWeb.Shared.csproj" />
   </ItemGroup>
 
 </Project>

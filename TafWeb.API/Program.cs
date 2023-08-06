@@ -1,7 +1,3 @@
-using AspNetCore.Identity.CosmosDb;
-using AspNetCore.Identity.CosmosDb.Containers;
-using AspNetCore.Identity.CosmosDb.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -34,6 +30,24 @@ builder.Services.AddCosmosIdentity<TafWebDbContext, TafUser, IdentityRole>(optio
 }
 ).AddDefaultUI().AddDefaultTokenProviders();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey
+            (
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new Exception("missing JWT signing key"))
+            )
+        };
+    });
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddControllers();
@@ -41,30 +55,31 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(AboutUs), typeof(AboutUsDetailModel), typeof(AboutUsMapperProfile));
+
+builder.Services.AddScoped<IAboutUsService, AboutUsService>();
+builder.Services.AddScoped<IClientFeedbackService, ClientFeedbackService>();
+builder.Services.AddScoped<IOrderFormService, OrderFormService>();
+builder.Services.AddScoped<IVideoCategoryService, VideoCategoryService>();
+builder.Services.AddScoped<IVideoService, VideoService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// If this is set, the Cosmos identity provider will:
-// 1. Create the database if it does not already exist.
-// 2. Create the required containers if they do not already exist.
-// IMPORTANT: Remove this setting if after first run. It will improve startup performance.
-var setupCosmosDb = builder.Configuration.GetValue<string>("SetupCosmosDb");
-
-// If the following is set, it will create the Cosmos database and
-//  required containers.
-if (bool.TryParse(setupCosmosDb, out var setup) && setup)
+using (var serviceProvider = app.Services.CreateScope())
 {
-    using var serviceProvider = app.Services.CreateScope();
     var context = serviceProvider.ServiceProvider.GetRequiredService<TafWebDbContext>();
     var userManager = serviceProvider.ServiceProvider.GetRequiredService<UserManager<TafUser>>();
-
+#if DEBUG
     await context.Database.EnsureDeletedAsync();
+#endif
     await context.Database.EnsureCreatedAsync();
     await context.SeedDatabaseAsync(userManager);
 }
@@ -73,6 +88,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("TafWebCorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

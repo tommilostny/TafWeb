@@ -1,6 +1,6 @@
-﻿namespace TafWeb.DAL.Entities;
+﻿namespace TafWeb.Shared.Models.Video;
 
-public record Video
+public record VideoEditModel
 {
     public Guid Id { get; init; } = Guid.NewGuid();
     public string Title { get; init; } = string.Empty;
