@@ -34,6 +34,7 @@ public static class Seed
         await userManager.CreateAsync(franki, "Password2!");
         var aboutUsData = new AboutUs
         {
+            ShowReelVideoUrl = "https://www.youtube.com/embed/aguNX0uyIhE",
             ShortDesctiption = "Jsme dvojice kameramanů, která už desetiletí spolupracuje na nejrůznějších videoprojektech. V posledních letech jde zejména o zakázkovou tvorbu ze svateb, plesů, ochotnických divadel, rodinných oslav a jiných společenských událostí. Natáčíme zejména na Vysočině, ale nejsou pro nás problém ani jiné lokality. Dokážeme z vašich důležitých momentů vykouzlit obrazově atraktivní materiály, které jen tak neskončí v zapomnění.\r\n\r\n",
             LongDescription = "Všechno točíme na dvě kamery, která každá dokáže zachytit jiný aspekt vašich momentů. Každou sekundu hotového videa ladíme ve dvojici. Od výběru záběrů, jejich střihu, zpomalení, barvení po opravy závěrečné verze. Nejsou nám cizí ani letecké záběry. Venkovní zakázky natáčíme s dronem pro lepší úvod do místa, kde se vaše událost odehrává.\nMáte zájem o video? Zadejte nezávaznou objednávku na webu nebo nám napište kamkoliv na naše sítě a řekněte nám svoji představu! Cena se odvíjí od konkrétních požadavků, které na nás budete mít.",
         };

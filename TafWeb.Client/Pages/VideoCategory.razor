@@ -1,0 +1,41 @@
+﻿@page "/videa/{Category}"
+@inject HttpClient Http
+
+@if (categoryDetail is not null)
+{
+    <h1>@categoryDetail.Name</h1>
+    <p>@categoryDetail.ShortDescription</p>
+    <p>@categoryDetail.LongDescription</p>
+    <hr />
+    @if (videos is not null)
+    {
+        @foreach (var video in videos)
+        {
+            <a href="videa/detail/@video.Route">
+                <h2>@video.Title</h2>
+                <img src=@video.ThumbnailBase64 alt="Náhledový obrázek @video.Title" />
+            </a>
+        }
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public string? Category { get; set; }
+
+    VideoCategoryDetailModel? categoryDetail;
+    List<VideoListModel>? videos;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        categoryDetail = null;
+        videos = null;
+
+        categoryDetail = await Http.GetFromJsonAsync<VideoCategoryDetailModel>(string.Format(ApiEndpoints.VideoCategoryDetailUrl, Category));
+        videos = await Http.GetFromJsonAsync<List<VideoListModel>>(string.Format(ApiEndpoints.VideoFromCategoryUrl, Category));
+    }
+}

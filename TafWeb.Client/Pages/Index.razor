@@ -1,9 +1,28 @@
 ﻿@page "/"
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (aboutUsMainPageModel is not null)
+{
+    <iframe width="560" height="315" src=@aboutUsMainPageModel.ShowReelVideoUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-Welcome to your new app.
+    <h1>Kdo jsme?</h1>
+    @foreach (var paragraph in aboutUsMainPageModel.ShortDesctiptionParagraphs)
+    {
+        <p>@paragraph</p>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    AboutUsMainPageModel? aboutUsMainPageModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        aboutUsMainPageModel = await Http.GetFromJsonAsync<AboutUsMainPageModel>(ApiEndpoints.AboutUsMainUrl);
+    }
+}
