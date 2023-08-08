@@ -14,7 +14,7 @@ public class ClientFeedbackController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ClientFeedbackListModel>>> GetAsync()
+    public async Task<ActionResult<IReadOnlyCollection<ClientFeedbackListModel>>> GetAsync()
     {
         try
         {

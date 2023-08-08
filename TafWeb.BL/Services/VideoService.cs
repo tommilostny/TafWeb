@@ -35,12 +35,12 @@ public class VideoService : IVideoService
         return _mapper.Map<VideoEditModel>(video);
     }
 
-    public async Task<List<VideoListModel>> GetAllVideosAsync()
+    public async Task<IReadOnlyCollection<VideoListModel>> GetAllVideosAsync()
     {
         return await _mapper.ProjectTo<VideoListModel>(_dbContext.Videos).ToListAsync();
     }
 
-    public async Task<List<VideoListModel>> GetVideosFromCategoryAsync(string categoryRoute)
+    public async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(string categoryRoute)
     {
         var categoryId = (await _dbContext.VideoCategories.FirstAsync(c => c.Route == categoryRoute)).Id;
 
@@ -51,7 +51,7 @@ public class VideoService : IVideoService
         return await _mapper.ProjectTo<VideoListModel>(videos).ToListAsync();
     }
 
-    public async Task<List<VideoListModel>> GetVideosFromCategoryAsync(int count, string categoryRoute)
+    public async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(int count, string categoryRoute)
     {
         var categoryId = (await _dbContext.VideoCategories.FirstAsync(c => c.Route == categoryRoute)).Id;
 

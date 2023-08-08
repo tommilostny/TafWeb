@@ -17,7 +17,7 @@ public class ClientFeedbackService : IClientFeedbackService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<ClientFeedbackListModel>> GetClientFeedbacksAsync()
+    public async Task<IReadOnlyCollection<ClientFeedbackListModel>> GetClientFeedbacksAsync()
     {
         return await _mapper.ProjectTo<ClientFeedbackListModel>(_dbContext.ClientFeedbacks).ToListAsync();
     }

@@ -14,7 +14,7 @@ public class OrderFormController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<OrderFormEntryListModel>>> GetAllAsync()
+    public async Task<ActionResult<IReadOnlyCollection<OrderFormEntryListModel>>> GetAllAsync()
     {
         try
         {
@@ -49,6 +49,7 @@ public class OrderFormController : ControllerBase
         try
         {
             await _orderFormService.AddOrderFormEntryAsync(orderFormEntryAddModel);
+            //TODO: Send notification to Telegram.
             return Ok();
         }
         catch (Exception ex)

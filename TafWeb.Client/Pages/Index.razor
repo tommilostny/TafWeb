@@ -1,16 +1,47 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-<PageTitle>Index</PageTitle>
+<h1>Tvůrčí skupina T&amp;F</h1>
 
 @if (aboutUsMainPageModel is not null)
 {
     <iframe width="560" height="315" src=@aboutUsMainPageModel.ShowReelVideoUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-    <h1>Kdo jsme?</h1>
+    <h2>Kdo jsme?</h2>
     @foreach (var paragraph in aboutUsMainPageModel.ShortDesctiptionParagraphs)
     {
         <p>@paragraph</p>
+    }
+    if (videoCategories is not null)
+    {
+        @foreach (var category in videoCategories)
+        {
+            <hr />
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h2>@category.Name</h2>
+                    <p>@category.ShortDescription</p>
+                    <a href="@(string.Format("/kategorie/{0}", category.Route))" >Více...</a>
+                </div>
+                <div class="col-12 col-md-6">
+                    @if (videos.TryGetValue(category.Route, out var categoryVideos))
+                    {
+                        @foreach (var video in categoryVideos)
+                        {
+                            <div class="row">
+                                <a href="@(string.Format("/video/{0}", video.Route))">
+                                    <img src="@video.ThumbnailBase64" alt="thumbnail @video.Title" class="img-fluid" />
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Loading...</p>
+                    }
+                </div>
+            </div>
+        }
     }
 }
 else
@@ -20,9 +51,26 @@ else
 
 @code {
     AboutUsMainPageModel? aboutUsMainPageModel;
+    IReadOnlyCollection<VideoCategoryListModel>? videoCategories;
+    Dictionary<string, IReadOnlyCollection<VideoListModel>> videos = new();
 
     protected override async Task OnInitializedAsync()
     {
         aboutUsMainPageModel = await Http.GetFromJsonAsync<AboutUsMainPageModel>(ApiEndpoints.AboutUsMainUrl);
+        videoCategories = await Http.GetFromJsonAsync<IReadOnlyCollection<VideoCategoryListModel>>(ApiEndpoints.VideoCategoryBaseUrl);
+        if (videoCategories is not null)
+        {
+            foreach (var category in videoCategories)
+            {
+                videos[category.Route] = await GetVideosFromCategoryAsync(category.Route);
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(string category)
+    {
+        return await Http.GetFromJsonAsync<IReadOnlyCollection<VideoListModel>>(string.Format(ApiEndpoints.VideoFromCategoryAndCountUrl, category, 3))
+            ?? new List<VideoListModel>();
     }
 }

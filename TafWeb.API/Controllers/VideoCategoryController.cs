@@ -14,7 +14,7 @@ public class VideoCategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<VideoCategoryListModel>>> GetAllAsync()
+    public async Task<ActionResult<IReadOnlyCollection<VideoCategoryListModel>>> GetAllAsync()
     {
         try
         {

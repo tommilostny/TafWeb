@@ -23,7 +23,9 @@ public class AboutUsService : IAboutUsService
     {
         var entity = await _dbContext.AboutUs.FirstOrDefaultAsync();
         var model = _mapper.Map<AboutUsDetailModel>(entity);
-        model.Users = await _mapper.ProjectTo<TafUserListModel>(_userManager.Users).ToListAsync();
+        model.Users = await _mapper.ProjectTo<TafUserListModel>(_userManager.Users)
+            .OrderBy(u => u.Name)
+            .ToListAsync();
         return model;
     }
 

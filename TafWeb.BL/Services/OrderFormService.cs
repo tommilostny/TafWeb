@@ -17,7 +17,7 @@ public class OrderFormService : IOrderFormService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<OrderFormEntryListModel>> GetOrderFormEntriesAsync()
+    public async Task<IReadOnlyCollection<OrderFormEntryListModel>> GetOrderFormEntriesAsync()
     {
         return await _mapper.ProjectTo<OrderFormEntryListModel>(_dbContext.FormEntries).ToListAsync();
     }

@@ -14,7 +14,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<VideoListModel>>> GetAllAsync()
+    public async Task<ActionResult<IReadOnlyCollection<VideoListModel>>> GetAllAsync()
     {
         try
         {
@@ -29,7 +29,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpGet("fromcategory/{categoryRoute}")]
-    public async Task<ActionResult<List<VideoDetailModel>>> GetByCategoryAsync(string categoryRoute)
+    public async Task<ActionResult<IReadOnlyCollection<VideoDetailModel>>> GetByCategoryAsync(string categoryRoute)
     {
         try
         {
@@ -44,7 +44,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpGet("fromcategory/{categoryRoute}/{count}")]
-    public async Task<ActionResult<List<VideoDetailModel>>> GetByCategoryAsync(string categoryRoute, int count)
+    public async Task<ActionResult<IReadOnlyCollection<VideoDetailModel>>> GetByCategoryAsync(string categoryRoute, int count)
     {
         try
         {
@@ -105,7 +105,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpPost("add")]
-    public async Task<ActionResult> CreateAsync([FromBody] VideoAddModel videoEditModel)
+    public async Task<ActionResult> AddAsync([FromBody] VideoAddModel videoEditModel)
     {
         try
         {

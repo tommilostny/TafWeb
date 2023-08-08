@@ -11,9 +11,9 @@ public class VideoCategoryService : IVideoCategoryService
         _mapper = mapper;
     }
 
-    public Task<List<VideoCategoryListModel>> GetVideoCategoriesAsync()
+    public async Task<IReadOnlyCollection<VideoCategoryListModel>> GetVideoCategoriesAsync()
     {
-        return _mapper.ProjectTo<VideoCategoryListModel>(_dbContext.VideoCategories.Where(vc => vc.IsVisible)).ToListAsync();
+        return await _mapper.ProjectTo<VideoCategoryListModel>(_dbContext.VideoCategories.Where(vc => vc.IsVisible)).ToListAsync();
     }
 
     public async Task<VideoCategoryDetailModel> GetVideoCategoryDetailModelAsync(string categoryRoute)

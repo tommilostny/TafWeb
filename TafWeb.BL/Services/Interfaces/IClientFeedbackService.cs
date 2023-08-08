@@ -2,6 +2,6 @@
 
 public interface IClientFeedbackService
 {
-    Task<List<ClientFeedbackListModel>> GetClientFeedbacksAsync();
+    Task<IReadOnlyCollection<ClientFeedbackListModel>> GetClientFeedbacksAsync();
     Task AddClientFeedbackAsync(ClientFeedbackAddModel model);
 }
