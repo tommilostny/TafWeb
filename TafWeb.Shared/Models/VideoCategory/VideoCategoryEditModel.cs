@@ -3,10 +3,9 @@
 public record VideoCategoryEditModel
 {
     public VideoCategoryType Id { get; init; }
-    public string Name { get; init; } = string.Empty;
-    public bool IsVisible { get; init; } = false;
-    public string ShortDescription { get; init; } = string.Empty;
-    public string LongDescription { get; init; } = string.Empty;
-    public string Route { get; init; } = string.Empty;
-    public string BackgroundImageBase64 { get; init; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Route { get; set; } = string.Empty;
+    public bool IsVisible { get; set; } = false;
+    public string MainPageText { get; set; } = string.Empty;
+    public string DetailPageText { get; set; } = string.Empty;
 }

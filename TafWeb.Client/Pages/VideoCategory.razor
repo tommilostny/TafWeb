@@ -3,10 +3,22 @@
 
 @if (categoryDetail is not null)
 {
+    <PageTitle>@categoryDetail.Name | Tvůrčí skupina T&amp;F</PageTitle>
     <h1>@categoryDetail.Name</h1>
-    <p>@categoryDetail.ShortDescription</p>
-    <p>@categoryDetail.LongDescription</p>
+    @foreach (var paragraph in categoryDetail.Paragraphs)
+    {
+        <p>@paragraph</p>
+    }
     <hr />
+    if (categoryDetail.Faqs.Count > 0)
+    {
+        <h2>Často kladené dotazy</h2>
+        @foreach (var faq in categoryDetail.Faqs)
+        {
+            <h3>@faq.Question</h3>
+            <p>@faq.Answer</p>
+        }
+    }
     @foreach (var video in categoryDetail.Videos)
     {
         <a href="video/@video.Route">

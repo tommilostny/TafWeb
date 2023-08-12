@@ -13,4 +13,5 @@ public class TafWebDbContext : CosmosIdentityDbContext<TafUser, IdentityRole>
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<OrderFormEntry> FormEntries { get; set; }
     public DbSet<ClientFeedback> ClientFeedbacks { get; set; }
+    public DbSet<FAQ> Faqs { get; set; }
 }
