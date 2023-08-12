@@ -1,0 +1,8 @@
+﻿.loading-wrapper {
+    height: 30em;
+}
+
+.loading-progress {
+    opacity: .3;
+    margin: 18vh auto 1rem auto;
+}

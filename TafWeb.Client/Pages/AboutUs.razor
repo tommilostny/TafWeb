@@ -1,65 +1,68 @@
-﻿@page "/onas"
+﻿@page "/o-nas"
 @inject HttpClient Http
 
 <PageTitle>O nás | Tvůrčí skupina T&amp;F</PageTitle>
-<h1>O nás</h1>
 
-@if (aboutUsDetailModel is not null)
-{
-    @foreach (var paragraph in aboutUsDetailModel.LongDescriptionParagraphs)
+<div class="container-fluid">
+    <h1>O nás</h1>
+
+    @if (aboutUsDetailModel is not null)
     {
-        <p>@paragraph</p>
-    }
-    <hr />
-    <h2>Galerie</h2>
-    @foreach (var galleryImage in aboutUsDetailModel.GalleryImageBase64s)
-    {
-        <img src=@galleryImage alt="fotka z galerie" />
-    }
-    <hr />
-    <h2>Naše technika</h2>
-    <p>...</p>
-    <hr />
-    @if (aboutUsDetailModel.Users is not null)
-    {
-        @foreach (var person in aboutUsDetailModel.Users)
+        @foreach (var paragraph in aboutUsDetailModel.LongDescriptionParagraphs)
         {
-            <h2>@person.Name</h2>
-            <p>@person.Description</p>
-            <img src="@person.ImageBase64" alt="fotka @person.Name" class="img-fluid" />
-            <ul>
-                @if (!string.IsNullOrEmpty(person.TwitterUrl))
-                {
-                    <li><a href=@person.TwitterUrl target="_blank">X</a></li>
-                }
-                @if (!string.IsNullOrEmpty(person.FacebookUrl))
-                {
-                    <li><a href=@person.FacebookUrl target="_blank">Facebook</a></li>
-                }
-                @if (!string.IsNullOrEmpty(person.InstagramUrl))
-                {
-                    <li><a href=@person.InstagramUrl target="_blank">Instagram</a></li>
-                }
-                @if (!string.IsNullOrEmpty(person.LinkedInUrl))
-                {
-                    <li><a href=@person.LinkedInUrl target="_blank">LinkedIn</a></li>
-                }
-                @if (!string.IsNullOrEmpty(person.MastodonUrl))
-                {
-                    <li><a href=@person.MastodonUrl target="_blank">Mastodon</a></li>
-                }
-                @if (!string.IsNullOrEmpty(person.GitHubUrl))
-                {
-                    <li><a href=@person.GitHubUrl target="_blank">GitHub</a></li>
-                }
-            </ul>
+            <p>@paragraph</p>
+        }
+        <hr />
+        <h2>Galerie</h2>
+        @foreach (var galleryImage in aboutUsDetailModel.GalleryImageBase64s)
+        {
+            <img src=@galleryImage alt="fotka z galerie" />
+        }
+        <hr />
+        <h2>Naše technika</h2>
+        <p>...</p>
+        <hr />
+        @if (aboutUsDetailModel.Users is not null)
+        {
+            @foreach (var person in aboutUsDetailModel.Users)
+            {
+                <h2>@person.Name</h2>
+                <p>@person.Description</p>
+                <img src="@person.ImageBase64" alt="fotka @person.Name" class="img-fluid" />
+                <ul>
+                    @if (!string.IsNullOrEmpty(person.TwitterUrl))
+                    {
+                        <li><a href=@person.TwitterUrl target="_blank">X</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(person.FacebookUrl))
+                    {
+                        <li><a href=@person.FacebookUrl target="_blank">Facebook</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(person.InstagramUrl))
+                    {
+                        <li><a href=@person.InstagramUrl target="_blank">Instagram</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(person.LinkedInUrl))
+                    {
+                        <li><a href=@person.LinkedInUrl target="_blank">LinkedIn</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(person.MastodonUrl))
+                    {
+                        <li><a href=@person.MastodonUrl target="_blank">Mastodon</a></li>
+                    }
+                    @if (!string.IsNullOrEmpty(person.GitHubUrl))
+                    {
+                        <li><a href=@person.GitHubUrl target="_blank">GitHub</a></li>
+                    }
+                </ul>
+            }
         }
     }
-}
-else
-{
-    <p>Loading...</p>
-}
+    else
+    {
+        <Loading />
+    }
+</div>
 
 @code {
     AboutUsDetailModel? aboutUsDetailModel;

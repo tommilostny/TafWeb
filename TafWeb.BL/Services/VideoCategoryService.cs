@@ -21,7 +21,11 @@ public class VideoCategoryService : IVideoCategoryService
         var categoryEntity = await _dbContext.VideoCategories.FirstAsync(vc => vc.Route == categoryRoute);
         var categoryModel = _mapper.Map<VideoCategoryDetailModel>(categoryEntity);
 
-        categoryModel.Videos = await _mapper.ProjectTo<VideoListModel>(_dbContext.Videos.Where(v => v.Category == categoryEntity.Id)).ToListAsync();
+        var videos = _dbContext.Videos
+            .Where(v => v.Category == categoryEntity.Id)
+            .OrderByDescending(v => v.Published);
+
+        categoryModel.Videos = await _mapper.ProjectTo<VideoListModel>(videos).ToListAsync();
         categoryModel.Faqs = await _mapper.ProjectTo<FAQListModel>(_dbContext.Faqs.Where(f => f.Category == categoryEntity.Id)).ToListAsync();
         return categoryModel;
     }

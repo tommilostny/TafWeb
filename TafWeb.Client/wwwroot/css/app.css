@@ -5,9 +5,46 @@ html, body {
     background-color: black;
 }
 
+@font-face {
+    font-family: TafFont;
+    src: url('../pakenham.ttf');
+}
+
+h1, h2, h3, h4 {
+    font-family: TafFont, sans-serif;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 4em;
+}
+
+h3 {
+    font-size: 3em;
+}
+
+h4 {
+    font-size: 2.2em;
+}
+
+p {
+    font-size: 1.1em;
+}
+
+#app {
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+/*
 #app {
     background-color: white;
+    color: rgb(20, 20, 20);
 }
+*/
 
 h1:focus {
     outline: none;
@@ -15,6 +52,7 @@ h1:focus {
 
 a, .btn-link {
     color: #0071c1;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -28,7 +66,9 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding: 0;
+    margin: 0;
+    padding-top: 0.5rem;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -79,8 +119,8 @@ a, .btn-link {
 .loading-progress {
     position: relative;
     display: block;
-    width: 14rem;
-    height: 14rem;
+    width: 200px;
+    height: 200px;
     margin: 27vh auto 1rem auto;
 }
 
@@ -88,4 +128,102 @@ a, .btn-link {
     border-radius: 10px;
     width: 100%;
     margin: 0 auto;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar a {
+    color: #ddd;
+    font-family: TafFont, sans-serif;
+    font-size: 1.5em;
+}
+
+    .navbar a:hover {
+        color: #aaa;
+    }
+
+    .navbar a:focus {
+        color: #ddd;
+    }
+
+.navbar-brand img {
+    margin-top: -0.8rem;
+    margin-right: 0.5rem;
+    width: 40px;
+    height: 40px;
+}
+
+.navbar-brand span {
+    font-size: 2rem;
+}
+
+.divider {
+    color: #444;
+    margin: 0 0.5rem;
+    font-size: 1.9rem;
+    font-family: serif;
+}
+
+.divider-hide {
+    display: none;
+}
+
+.bg-dark[type=search] {
+    border: none;
+}
+
+.img-loading {
+    opacity: 0.5;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.stripe {
+    color: white;
+    padding: 40px 8rem;
+}
+
+.stripe .btn-dark {
+    margin-top: 1.2rem;
+}
+
+    .stripe img {
+        transition: .3s;
+        border-radius: 10px;
+    }
+
+    .stripe a img:hover {
+        transition: .3s;
+        -webkit-transform: scale(1.03);
+        -ms-transform: scale(1.03);
+        transform: scale(1.03);
+    }
+
+@media (max-width: 1324px) {
+    .stripe {
+        padding: 40px 4rem;
+        padding-bottom: 0;
+    }
+}
+@media (max-width: 768px) {
+    .stripe {
+        padding: 40px 3rem;
+        padding-bottom: 0;
+    }
+}
+
+
+.stripe-1 {
+    background-color: #101010;
+}
+
+.stripe-0 {
+    background-color: #151515;
+}
+
+p, ul {
+    font-size: 1.2rem;
 }

@@ -25,18 +25,18 @@
             <h2>@video.Title</h2>
             @if (!string.IsNullOrEmpty(video.ThumbnailBase64))
             {
-                <img src="@video.ThumbnailBase64" alt="Náhledový obrázek @video.Title" />
+                <img src="@video.ThumbnailBase64" alt="Náhledový obrázek @video.Title" class="img-fluid" />
             }
             else
             {
-                <p>Loading image...</p>
+                <img src="img/taf logo rotate.gif" alt="loading..." class="img-fluid img-loading" />
             }
         </a>
     }
 }
 else
 {
-    <p>Loading...</p>
+    <Loading />
 }
 
 @code {

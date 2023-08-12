@@ -4,9 +4,12 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>Nenalezeno | Tvůrčí skupina T&amp;F</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <div class="container mb-5 mt-4">
+                <h1>Omlouváme se, ale tato stánka neexistuje.</h1>
+                <a href="" class="btn">Zpět na úvodní stránku</a>
+            </div>
         </LayoutView>
     </NotFound>
 </Router>

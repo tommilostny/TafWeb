@@ -1,39 +1,51 @@
 ﻿@inject HttpClient Http
 
-<div class="top-row ps-3 navbar navbar-dark">
+<nav class="navbar fixed-top navbar-expand-lg bg-black">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">TafWeb.Client</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
+        <a class="navbar-brand" href="">
+            <img src="img/taf_white_small.png" alt="Logo" class="d-inline-block align-text-top">
+            <span>Tvůrčí skupina T&amp;F</span>
+        </a>
+        <button title="Navigation menu" class="navbar-toggler btn btn-dark" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon oi oi-menu"></span>
         </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Hlavní stránka
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="onas">
-                <span class="oi oi-plus" aria-hidden="true"></span> O nás
-            </NavLink>
-        </div>
-        @if (videoCategories is not null)
-        {
-            @foreach (var category in videoCategories)
-            {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="@(string.Format("/kategorie/{0}", category.Route))">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> @category.Name
+        <div class="@NavMenuCssClass navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        Hlavní stránka
                     </NavLink>
-                </div>
-            }
-        }
-    </nav>
-</div>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="o-nas">
+                        O nás
+                    </NavLink>
+                </li>
+                @if (videoCategories is not null)
+                {
+                    <li class="@dividerCss">|</li>
+                    @foreach (var category in videoCategories)
+                    {
+                        <li class="nav-item category-link">
+                            <NavLink class="nav-link" href="@(string.Format("/kategorie/{0}", category.Route))">
+                                @category.Name
+                            </NavLink>
+                        </li>
+                    }
+                }
+            </ul>
+            <button class="btn btn-dark me-3 mb-sm-0 mb-2" @onclick="ToggleTheme">
+                <span class="oi @ThemeCssClass"></span>
+            </button>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 bg-dark text-white" type="search" placeholder="Vyhledávání..." aria-label="Search">
+                <button class="btn btn-dark" type="submit">
+                    <span class="oi oi-magnifying-glass"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
 
 @code {
     private IReadOnlyCollection<VideoCategoryListModel>? videoCategories;
@@ -42,9 +54,20 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    private bool darkTheme = true;
+
+    private string? ThemeCssClass => darkTheme ? "oi-moon" : "oi-sun";
+
+    private string? dividerCss => collapseNavMenu ? "divider" : "divider-hide";
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleTheme()
+    {
+        darkTheme = !darkTheme;
     }
 
     protected override async Task OnInitializedAsync()

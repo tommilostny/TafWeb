@@ -1,64 +1,71 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-<h1>Tvůrčí skupina T&amp;F</h1>
-
 @if (aboutUsMainPageModel is not null)
 {
-    <iframe width="560" height="315" src=@aboutUsMainPageModel.ShowReelVideoUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-    <h2>Kdo jsme?</h2>
-    @foreach (var paragraph in aboutUsMainPageModel.ShortDesctiptionParagraphs)
-    {
-        <p>@paragraph</p>
-    }
-    if (videoCategories is not null)
-    {
-        @foreach (var category in videoCategories)
+    <div class="showreel">
+        <iframe src=@aboutUsMainPageModel.ShowReelVideoUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <div class="container-fluid">
+        <div class="row stripe stripe-1">
+            <div class="col-12 col-xl-8 col-lg-7">
+                <h3>Jsme Tomáš a František a rádi natočíme vaši událost</h3>
+                @foreach (var paragraph in aboutUsMainPageModel.ShortDesctiptionParagraphs)
+                {
+                    <p>@paragraph</p>
+                }
+                <a href="/o-nas" class="btn btn-dark">Více o nás</a>
+            </div>
+            <div class="col-12 col-xl-4 col-lg-5 img-people">
+                <img class="img-fluid" src="@aboutUsMainPageModel.PeopleImageBase64" alt="fotka členů T&F" />
+            </div>
+        </div>
+        @if (videoCategories is not null)
         {
-            <hr />
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <h2>@category.Name</h2>
-                    <ul>
-                        @foreach (var paragraph in category.Paragraphs)
+            @for (var i = 0; i < videoCategories.Count; i++)
+            {
+                var category = videoCategories.ElementAt(i);
+                <div class="row stripe stripe-@(i % 2)">
+                    <div class="col-12 col-lg-4 col-md-6">
+                        <h2>@category.Name</h2>
+                        <ul>
+                            @foreach (var paragraph in category.Paragraphs)
+                            {
+                                <li>@paragraph</li>
+                            }
+                        </ul>
+                        <a href="@(string.Format("/kategorie/{0}", category.Route))" class="btn btn-dark">Mrkněte se, jak to děláme</a>
+                    </div>
+                    <div class="col-12 col-lg-8 col-md-6">
+                        @if (videos.TryGetValue(category.Route, out var categoryVideos))
                         {
-                            <li>@paragraph</li>
-                        }
-                    </ul>
-                    <a href="@(string.Format("/kategorie/{0}", category.Route))" >Více...</a>
-                </div>
-                <div class="col-12 col-md-6">
-                    @if (videos.TryGetValue(category.Route, out var categoryVideos))
-                    {
-                        @foreach (var video in categoryVideos)
-                        {
-                            <div class="row">
-                                <a href="@(string.Format("/video/{0}", video.Route))">
-                                    @if (!string.IsNullOrEmpty(video.ThumbnailBase64))
-                                    {
-                                        <img src="@video.ThumbnailBase64" alt="thumbnail @video.Title" class="img-fluid" />
-                                    }
-                                    else
-                                    {
-                                        <p>Loading image...</p>
-                                    }
-                                </a>
+                            <div class="row pt-4">
+                                @foreach (var video in categoryVideos)
+                                {
+                                    <div class="col-lg-6 pb-4">
+                                        <a href="@(string.Format("/video/{0}", video.Route))">
+                                            @if (!string.IsNullOrEmpty(video.ThumbnailBase64))
+                                            {
+                                                <img src="@video.ThumbnailBase64" alt="thumbnail @video.Title" class="img-fluid" />
+                                            }
+                                            else
+                                            {
+                                                <img src="img/taf logo rotate.gif" alt="loading..." class="img-fluid img-loading" />
+                                            }
+                                        </a>
+                                    </div>
+                                }
                             </div>
                         }
-                    }
-                    else
-                    {
-                        <p>Loading...</p>
-                    }
+                    </div>
                 </div>
-            </div>
+            }
         }
-    }
+    </div>
 }
 else
 {
-    <p>Loading...</p>
+    <Loading />
 }
 
 @code {
@@ -69,26 +76,28 @@ else
     protected override async Task OnInitializedAsync()
     {
         aboutUsMainPageModel = await Http.GetFromJsonAsync<AboutUsMainPageModel>(ApiEndpoints.AboutUsMainUrl);
+        StateHasChanged();
+
         videoCategories = await Http.GetFromJsonAsync<IReadOnlyCollection<VideoCategoryListModel>>(ApiEndpoints.VideoCategoryBaseUrl);
-        if (videoCategories is not null)
+        if (videoCategories is null)
+            return;
+
+        foreach (var category in videoCategories)
         {
-            foreach (var category in videoCategories)
+            var vids = await GetVideosFromCategoryAsync(category.Route);
+            videos[category.Route] = vids;
+            StateHasChanged();
+            foreach (var video in vids)
             {
-                var vids = await GetVideosFromCategoryAsync(category.Route);
-                videos[category.Route] = vids;
+                video.ThumbnailBase64 = await Http.GetStringAsync(string.Format(ApiEndpoints.VideoThumbnailUrl, video.Route));
                 StateHasChanged();
-                foreach (var video in vids)
-                {
-                    video.ThumbnailBase64 = await Http.GetStringAsync(string.Format(ApiEndpoints.VideoThumbnailUrl, video.Route));
-                    StateHasChanged();
-                }
             }
         }
     }
 
     private async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(string category)
     {
-        return await Http.GetFromJsonAsync<IReadOnlyCollection<VideoListModel>>(string.Format(ApiEndpoints.VideoFromCategoryAndCountUrl, category, 3))
+        return await Http.GetFromJsonAsync<IReadOnlyCollection<VideoListModel>>(string.Format(ApiEndpoints.VideoFromCategoryAndCountUrl, category, 2))
             ?? new List<VideoListModel>();
     }
 }
