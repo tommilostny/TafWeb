@@ -5,7 +5,11 @@ public class VideoCategoryMapperProfile : Profile
     public VideoCategoryMapperProfile()
     {
         CreateMap<VideoCategory, VideoCategoryListModel>();
-        CreateMap<VideoCategory, VideoCategoryDetailModel>();
+        CreateMap<VideoCategory, VideoCategoryDetailModel>()
+            .ForMember(
+                dst => dst.Videos,
+                config => config.Ignore()
+            );
         CreateMap<VideoCategory, VideoCategoryEditModel>();
         CreateMap<VideoCategoryEditModel, VideoCategory>();
     }

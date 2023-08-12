@@ -1,4 +1,6 @@
-﻿namespace TafWeb.Shared.Models.VideoCategory;
+﻿using TafWeb.Shared.Models.Video;
+
+namespace TafWeb.Shared.Models.VideoCategory;
 
 public record VideoCategoryDetailModel
 {
@@ -7,4 +9,5 @@ public record VideoCategoryDetailModel
     public string ShortDescription { get; init; } = string.Empty;
     public string LongDescription { get; init; } = string.Empty;
     public string BackgroundImageBase64 { get; init; } = string.Empty;
+    public List<VideoListModel> Videos { get; set; } = new();
 }

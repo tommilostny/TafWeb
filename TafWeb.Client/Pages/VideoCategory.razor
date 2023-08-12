@@ -1,4 +1,4 @@
-﻿@page "/kategorie/{Category}"
+﻿@page "/kategorie/{CategoryRoute}"
 @inject HttpClient Http
 
 @if (categoryDetail is not null)
@@ -7,15 +7,19 @@
     <p>@categoryDetail.ShortDescription</p>
     <p>@categoryDetail.LongDescription</p>
     <hr />
-    @if (videos is not null)
+    @foreach (var video in categoryDetail.Videos)
     {
-        @foreach (var video in videos)
-        {
-            <a href="videa/detail/@video.Route">
-                <h2>@video.Title</h2>
-                <img src=@video.ThumbnailBase64 alt="Náhledový obrázek @video.Title" />
-            </a>
-        }
+        <a href="video/@video.Route">
+            <h2>@video.Title</h2>
+            @if (!string.IsNullOrEmpty(video.ThumbnailBase64))
+            {
+                <img src="@video.ThumbnailBase64" alt="Náhledový obrázek @video.Title" />
+            }
+            else
+            {
+                <p>Loading image...</p>
+            }
+        </a>
     }
 }
 else
@@ -25,17 +29,21 @@ else
 
 @code {
     [Parameter]
-    public string? Category { get; set; }
+    public string? CategoryRoute { get; set; }
 
     VideoCategoryDetailModel? categoryDetail;
-    List<VideoListModel>? videos;
 
     protected override async Task OnParametersSetAsync()
     {
         categoryDetail = null;
-        videos = null;
-
-        categoryDetail = await Http.GetFromJsonAsync<VideoCategoryDetailModel>(string.Format(ApiEndpoints.VideoCategoryDetailUrl, Category));
-        videos = await Http.GetFromJsonAsync<List<VideoListModel>>(string.Format(ApiEndpoints.VideoFromCategoryUrl, Category));
+        categoryDetail = await Http.GetFromJsonAsync<VideoCategoryDetailModel>(string.Format(ApiEndpoints.VideoCategoryDetailUrl, CategoryRoute));
+        if (categoryDetail is not null)
+        {
+            foreach (var video in categoryDetail.Videos)
+            {
+                video.ThumbnailBase64 = await Http.GetStringAsync(string.Format(ApiEndpoints.VideoThumbnailUrl, video.Route));
+                StateHasChanged();
+            }
+        }
     }
 }

@@ -69,4 +69,10 @@ public class VideoService : IVideoService
         videoToUpdate.State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<string> GetVideoBase64Thumbnail(string videoRoute)
+    {
+        var video = await _dbContext.Videos.FirstAsync(v => v.Route == videoRoute);
+        return video.ThumbnailBase64;
+    }
 }

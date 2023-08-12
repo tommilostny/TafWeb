@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33906.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.API", "TafWeb.API\TafWeb.API.csproj", "{A79DAB8C-E6EA-481F-B882-84515E8E6638}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.API", "TafWeb.API\TafWeb.API.csproj", "{A79DAB8C-E6EA-481F-B882-84515E8E6638}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.Shared", "TafWeb.Shared\TafWeb.Shared.csproj", "{F1FBD89F-96BB-432B-BE9D-8C8D1E49C9E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.Shared", "TafWeb.Shared\TafWeb.Shared.csproj", "{F1FBD89F-96BB-432B-BE9D-8C8D1E49C9E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.DAL", "TafWeb.DAL\TafWeb.DAL.csproj", "{440D7C3E-841C-4B74-9B16-1A753BF8FF39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.DAL", "TafWeb.DAL\TafWeb.DAL.csproj", "{440D7C3E-841C-4B74-9B16-1A753BF8FF39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.BL", "TafWeb.BL\TafWeb.BL.csproj", "{4C562CED-6EC5-4A6F-9EFC-C19FC2060085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.BL", "TafWeb.BL\TafWeb.BL.csproj", "{4C562CED-6EC5-4A6F-9EFC-C19FC2060085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.Client", "TafWeb.Client\TafWeb.Client.csproj", "{D1AC52B4-7DB5-46EC-BE8C-B00909B38D5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.Client", "TafWeb.Client\TafWeb.Client.csproj", "{D1AC52B4-7DB5-46EC-BE8C-B00909B38D5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TafWeb.Admin", "TafWeb.Admin\TafWeb.Admin.csproj", "{65D0581E-C8DF-442D-B38D-43DBA9EAD94D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TafWeb.Admin", "TafWeb.Admin\TafWeb.Admin.csproj", "{65D0581E-C8DF-442D-B38D-43DBA9EAD94D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

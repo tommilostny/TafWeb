@@ -118,4 +118,19 @@ public class VideoController : ControllerBase
             return BadRequest(ex);
         }
     }
+
+    [HttpGet("thumbnail/{videoRoute}")]
+    public async Task<ActionResult<string>> GetThumbnailAsync(string videoRoute)
+    {
+        try
+        {
+            var thumbnail = await _videoService.GetVideoBase64Thumbnail(videoRoute);
+            return Ok(thumbnail);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting video thumbnail");
+            return BadRequest(ex);
+        }
+    }
 }

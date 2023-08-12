@@ -30,7 +30,14 @@
                         {
                             <div class="row">
                                 <a href="@(string.Format("/video/{0}", video.Route))">
-                                    <img src="@video.ThumbnailBase64" alt="thumbnail @video.Title" class="img-fluid" />
+                                    @if (!string.IsNullOrEmpty(video.ThumbnailBase64))
+                                    {
+                                        <img src="@video.ThumbnailBase64" alt="thumbnail @video.Title" class="img-fluid" />
+                                    }
+                                    else
+                                    {
+                                        <p>Loading image...</p>
+                                    }
                                 </a>
                             </div>
                         }
@@ -62,8 +69,14 @@ else
         {
             foreach (var category in videoCategories)
             {
-                videos[category.Route] = await GetVideosFromCategoryAsync(category.Route);
+                var vids = await GetVideosFromCategoryAsync(category.Route);
+                videos[category.Route] = vids;
                 StateHasChanged();
+                foreach (var video in vids)
+                {
+                    video.ThumbnailBase64 = await Http.GetStringAsync(string.Format(ApiEndpoints.VideoThumbnailUrl, video.Route));
+                    StateHasChanged();
+                }
             }
         }
     }

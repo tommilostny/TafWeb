@@ -18,7 +18,12 @@ public class VideoCategoryService : IVideoCategoryService
 
     public async Task<VideoCategoryDetailModel> GetVideoCategoryDetailModelAsync(string categoryRoute)
     {
-        return _mapper.Map<VideoCategoryDetailModel>(await _dbContext.VideoCategories.FirstAsync(vc => vc.Route == categoryRoute));
+        var categoryEntity = await _dbContext.VideoCategories.FirstAsync(vc => vc.Route == categoryRoute);
+        
+        var categoryModel = _mapper.Map<VideoCategoryDetailModel>(categoryEntity);
+
+        categoryModel.Videos = await _mapper.ProjectTo<VideoListModel>(_dbContext.Videos.Where(v => v.Category == categoryEntity.Id)).ToListAsync();
+        return categoryModel;
     }
 
     public async Task<VideoCategoryEditModel> GetVideoCategoryEditModelAsync(string categoryRoute)
