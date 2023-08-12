@@ -63,7 +63,15 @@ builder.Services.AddScoped<IOrderFormService, OrderFormService>();
 builder.Services.AddScoped<IVideoCategoryService, VideoCategoryService>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+
 var app = builder.Build();
+app.UseResponseCompression();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

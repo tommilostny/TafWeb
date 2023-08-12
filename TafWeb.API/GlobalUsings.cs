@@ -1,11 +1,10 @@
-﻿global using AutoMapper;
-
-global using AspNetCore.Identity.CosmosDb.Extensions;
+﻿global using AspNetCore.Identity.CosmosDb.Extensions;
 
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.ResponseCompression;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.IdentityModel.Tokens;
 
