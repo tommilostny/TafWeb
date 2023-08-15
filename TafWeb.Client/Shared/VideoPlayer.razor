@@ -1,0 +1,50 @@
+﻿@inject HttpClient Http
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+@if (showLoading)
+{
+    <Loading />
+}
+<div class="video-wrapper" style="display: @(showLoading ? "none" : "block")">
+    <div class="plyr__video-embed" @ref="player">
+        <iframe src="@VideoUrl"
+                allowfullscreen
+                allowtransparency
+                allow="autoplay">
+        </iframe>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? VideoUrl { get; init; }
+
+    [Parameter]
+    public bool AutoPlay { get; init; } = false;
+
+    IJSObjectReference? javascriptModule;
+    ElementReference player;
+    bool showLoading = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        javascriptModule ??= await JS.InvokeAsync<IJSObjectReference>("import", "/js/videoplayer.js");
+        await javascriptModule.InvokeVoidAsync("initVideoPlayer", player, AutoPlay, DotNetObjectReference.Create(this));
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (javascriptModule is not null)
+        {
+            await javascriptModule.DisposeAsync();
+        }
+    }
+
+    [JSInvokable]
+    public void HideLoading()
+    {
+        showLoading = false;
+        StateHasChanged();
+    }
+}

@@ -36,7 +36,7 @@ public static class Seed
         await userManager.CreateAsync(franki, "Password2!");
         var aboutUsData = new AboutUs
         {
-            ShowReelVideoUrl = "https://www.youtube.com/embed/aguNX0uyIhE",
+            ShowReelVideoUrl = "https://player.vimeo.com/video/854309803",
             ShortDesctiptionParagraphs = new[]
             {
                 "Tvoříme kameramanskou dvojici a už několik let jezdíme po svatbách, plesech a jiných akcích a pomáháme uchovávat vzpomínky v pohyblivých obrázcích. Videotvorbě se věnujeme v různých podobách už od roku 2011, kdy jsme začali jezdit se svými snímky na filmařské soutěže. Během sedmi let se z videotvorby stal placený koníček zaměřený na videa z událostí, ve kterém stále rosteme. Dnes už za sebou máme desítky spokojených klientů a bude nám ctí, když budete dalším z nich. Mrkněte se, jak to děláme a zamluvte si nás ještě dnes.",

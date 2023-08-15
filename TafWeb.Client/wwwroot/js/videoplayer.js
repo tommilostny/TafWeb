@@ -1,31 +1,25 @@
-﻿export function initVideoPlayer() {
-	const element = document.getElementById('player');
-	console.log(element);
-	const player = new Plyr(element);
+﻿export function initVideoPlayer(element, autoPlay, dotnetInstance) {
+	const player = new Plyr(element, {
+		resetOnEnd: true,
+		ratio: autoPlay ? '19:9' : '21:9',
+		loop: { active: true },
+		autoplay: autoPlay,
+		clickToPlay: true,
+	});
+	player.once('ready', event => {
+		const instance = event.detail.plyr;
+		instance.muted = autoPlay;
+		if (!autoPlay) {
+			hideLoading(dotnetInstance);
+		}
+	});
+	if (autoPlay) {
+		player.once('playing', () => {
+			hideLoading(dotnetInstance);
+		});
+	}
+}
 
-	//player = new Plyr('#player', {
-	//	resetOnEnd: true,
-	//	ratio: '20:9',
-	//	loop: { active: true },
-	//	clickToPlay: true,
-	//});
-	console.log(player);
-
-	//screen.orientation.addEventListener("change", (event) => {
-	//	switch (event.target.type) {
-	//		case "landscape-primary":
-	//		case "landscape-secondary":
-	//			if (/*window.scrollY < 770 ||*/ player.playing) {
-	//				player.fullscreen.enter();
-	//			}
-	//			break;
-	//		default:
-	//			if (player.fullscreen.active) {
-	//				//document.getElementsByClassName("video-wrapper")[0].scrollIntoView();
-	//				//window.scrollBy(0, -250);
-	//				player.fullscreen.exit();
-	//			}
-	//			break;
-	//	}
-	//});
+function hideLoading(dotnetInstance) {
+	dotnetInstance.invokeMethodAsync('HideLoading');
 }

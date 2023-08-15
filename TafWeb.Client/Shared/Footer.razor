@@ -1,4 +1,6 @@
-﻿<div class="footer">
+﻿@using System.Reflection;
+
+<div class="footer">
     <a target="_blank" href="https://www.youtube.com/user/Fanda39">
         <img src="img/youtube.png" />
     </a>
@@ -12,7 +14,10 @@
     <p><strong>Tvůrčí skupina T&F</strong></p>
     <p><small>Bc. František Petrů | IČO: 17302609 | Fyzická osoba zapsaná v živnostenském rejstříku MěÚ Třebíč</small></p>
     <p>
-        <small>v. 3.0.0</small> <span style="color:gray">|</span> <small><a href="changelog" target="_top">Historie webu</a></small>
+        <small>
+            v. @(Assembly.GetExecutingAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion)
+        </small>
+        <span style="color:gray">|</span> <small><a href="changelog" target="_top">Historie webu</a></small>
         <br />
         <small>© Bc. Tomáš Milostný 2017-@(DateTime.Now.Year)</small>
     </p>

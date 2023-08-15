@@ -4,7 +4,7 @@
 @if (aboutUsMainPageModel is not null)
 {
     <div class="showreel">
-        <iframe src=@aboutUsMainPageModel.ShowReelVideoUrl title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <VideoPlayer VideoUrl="@aboutUsMainPageModel.ShowReelVideoUrl" AutoPlay="true" />
     </div>
     <div class="container-fluid">
         <div class="row stripe stripe-1">
