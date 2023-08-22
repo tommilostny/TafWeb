@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HttpClient Http
+@inject OrderFormHeadlineProvider HeadlineProvider;
 
 @if (aboutUsMainPageModel is not null)
 {
@@ -93,6 +94,8 @@ else
                 StateHasChanged();
             }
         }
+        await HeadlineProvider.FetchOrderFormHeadlineAsync();
+        StateHasChanged();
     }
 
     private async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(string category)

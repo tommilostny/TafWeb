@@ -293,6 +293,30 @@ public static class Seed
         };
         await context.Faqs.AddRangeAsync(faqs);
 
+        var headlines = new[]
+        {
+            new OrderFormHeadline
+            {
+                Text = "Víte už teď, co bychom pro vás mohli udělat? Zadejte nám nezávaznou poptávku na cokoliv v nabídce.",
+            },
+            new OrderFormHeadline
+            {
+                Text = "Máte zájem o svatební video a chcete zjistit víc? Vyplňte nám nezávazný formulář a obratem vám dáme vědět.",
+                VideoCategory = (int)VideoCategoryType.Wedding,
+            },
+            new OrderFormHeadline
+            {
+                Text = "Odpálíme tuhle nezapomenutelnou párty společně? Zabookujte si nás na váš ples co nejdříve.",
+                VideoCategory = (int)VideoCategoryType.Prom,
+            },
+            new OrderFormHeadline
+            {
+                Text = "Už máte představu o vašem vysněném eventovém nebo produktovém videu? Pojďme mu dát reálné obrysy vyplněním formuláře.",
+                VideoCategory = (int)VideoCategoryType.Other,
+            },
+        };
+        await context.FormHeadlines.AddRangeAsync(headlines);
+
         await context.SaveChangesAsync();
     }
 }

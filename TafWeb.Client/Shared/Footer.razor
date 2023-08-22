@@ -1,9 +1,10 @@
 ﻿@using System.Reflection;
 @inject HttpClient Http;
+@inject OrderFormHeadlineProvider HeadlineProvider;
 
 <footer>
     <div class="container">
-        <h2>Objednávkový formulář</h2>
+        <h3>@HeadlineProvider.HeadlineText</h3>
         <div class="orderForm">
             <EditForm Model="formEntry" OnValidSubmit="SendOrder">
                 <DataAnnotationsValidator />

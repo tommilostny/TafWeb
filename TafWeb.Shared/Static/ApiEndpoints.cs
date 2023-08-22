@@ -17,6 +17,8 @@ public static class ApiEndpoints
 
     public const string OrderFormBaseUrl = $"{ServerBaseUrl}orderform";
     public const string OrderFormIdUrl = $"{OrderFormBaseUrl}/{{0}}";
+    public const string OrderFormHeadlineUrl = $"{OrderFormBaseUrl}/headline";
+    public const string OrderFormHeadlineFromCategoryUrl = $"{OrderFormHeadlineUrl}/fromcategory/{{0}}";
 
     public const string VideoBaseUrl = $"{ServerBaseUrl}video";
     public const string VideoFromCategoryUrl = $"{VideoBaseUrl}/fromcategory/{{0}}";

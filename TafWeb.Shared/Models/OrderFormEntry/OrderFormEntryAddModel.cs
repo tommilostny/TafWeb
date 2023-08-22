@@ -1,6 +1,4 @@
-﻿using System.Windows.Markup;
-
-namespace TafWeb.Shared.Models.OrderFormEntry;
+﻿namespace TafWeb.Shared.Models.OrderFormEntry;
 
 public record OrderFormEntryAddModel
 {

@@ -59,4 +59,33 @@ public class OrderFormController : ControllerBase
         }
     }
 
+    [HttpGet("headline")]
+    public async Task<ActionResult<string>> GetHeadlineAsync()
+    {
+        try
+        {
+            var headlineText = await _orderFormService.GetHeadlineAsync();
+            return Ok(headlineText);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting headline");
+            return BadRequest(ex);
+        }
+    }
+
+    [HttpGet("headline/{categoryRoute}")]
+    public async Task<ActionResult<string>> GetHeadlineAsync(string categoryRoute)
+    {
+        try
+        {
+            var headlineText = await _orderFormService.GetHeadlineAsync(categoryRoute);
+            return Ok(headlineText);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting headline");
+            return BadRequest(ex);
+        }
+    }
 }
