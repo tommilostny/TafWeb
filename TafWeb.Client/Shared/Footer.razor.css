@@ -1,4 +1,4 @@
-﻿.footer {
+﻿footer {
     background-color: black;
     padding: 20px 0;
     position: relative;
@@ -10,7 +10,7 @@
     text-align: center;
 }
 
-    .footer img {
+    footer img {
         width: 70px;
         margin-top: 9px;
         margin-bottom: 15px;
@@ -21,7 +21,7 @@
         transition: .3s;
     }
 
-    .footer img:hover {
+    footer img:hover {
         transition: .3s;
         -webkit-transform: scale(1.1);
         -ms-transform: scale(1.1);
@@ -30,4 +30,16 @@
 
 small {
     color: gray;
+}
+
+.orderForm {
+    text-align: left;
+}
+
+hr {
+    margin-bottom: 50px;
+}
+
+textarea {
+    height: 12.3rem;
 }

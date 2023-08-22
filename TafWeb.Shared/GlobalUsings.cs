@@ -1,1 +1,2 @@
-﻿global using TafWeb.Shared.Enums;
+﻿global using System.ComponentModel.DataAnnotations;
+global using TafWeb.Shared.Enums;

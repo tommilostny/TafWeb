@@ -79,17 +79,14 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-using (var serviceProvider = app.Services.CreateScope())
-{
-    var context = serviceProvider.ServiceProvider.GetRequiredService<TafWebDbContext>();
-    var userManager = serviceProvider.ServiceProvider.GetRequiredService<UserManager<TafUser>>();
-#if DEBUG
-    await context.Database.EnsureDeletedAsync();
-#endif
-    await context.Database.EnsureCreatedAsync();
-    await context.SeedDatabaseAsync(userManager);
+    app.MapGet("/seed", async (TafWebDbContext context, UserManager<TafUser> userManager) =>
+    {
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
+        await context.SeedDatabaseAsync(userManager);
+        return Results.Ok();
+    });
 }
 
 app.UseHttpsRedirection();

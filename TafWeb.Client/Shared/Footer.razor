@@ -1,6 +1,96 @@
 ﻿@using System.Reflection;
+@inject HttpClient Http;
 
-<div class="footer">
+<footer>
+    <div class="container">
+        <h2>Objednávkový formulář</h2>
+        <div class="orderForm">
+            <EditForm Model="formEntry" OnValidSubmit="SendOrder">
+                <DataAnnotationsValidator />
+
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="name" class="form-label">Jméno <span class="text-danger">*</span></label>
+                            <input @bind="formEntry.Name" type="text" id="name" class="form-control bg-dark text-white" />
+                            <ValidationMessage For="@(() => formEntry.Name)" />
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
+                            <input @bind="formEntry.Email" class="form-control bg-dark text-white" type="text" id="email" />
+                            <ValidationMessage For="@(() => formEntry.Email)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="date" class="form-label">V jakém termínu s vámi máme počítat?</label>
+                            <input @bind="formEntry.Date" type="date" class="form-control bg-dark text-white" id="date" />
+                            <ValidationMessage For="@(() => formEntry.Date)" />
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="place" class="form-label">Kde se celá věc uskuteční?</label>
+                            <input @bind="formEntry.Place" type="text" id="place" class="form-control bg-dark text-white" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="message" class="form-label">Zpráva</label>
+                            <textarea @bind="formEntry.Message" class="form-control bg-dark text-white" id="message"></textarea>
+                            <ValidationMessage For="@(() => formEntry.Message)" />
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="mb-4 ms-3 me-3">
+                            <label for="videoCategory" class="form-label">O jaký typ videa máte zájem?</label>
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="wedding" name="videoCategory" value="0" checked />
+                                <label class="form-check-label" for="wedding">Svatební video</label>
+                            </div>
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="prom" name="videoCategory" value="1" />
+                                <label class="form-check-label" for="prom">Série videí z maturitního plesu</label>
+                            </div>
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="theater" name="videoCategory" value="2" />
+                                <label class="form-check-label" for="theater">Záznam z kulturní akce</label>
+                            </div><!--
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="corporate" name="videoCategory" value="3" />
+                                <label class="form-check-label" for="corporate">Firemní video</label>
+                            </div>
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="music" name="videoCategory" value="4" />
+                                <label class="form-check-label" for="music">Hudební videoklip</label>
+                            </div>-->
+                            <div class="form-check">
+                                <input @onchange="VideoCategoryChange" type="radio" class="form-check-input" id="other" name="videoCategory" value="5" />
+                                <label class="form-check-label" for="other">Jiné</label>
+                            </div>
+                            <div class="form-check mt-4">
+                                <input @bind="gdpr" type="checkbox" class="form-check-input" id="gdpr" />
+                                <label for="gdpr" class="form-label">Souhlasím se zpracováním osobních údajů.</label>
+                            </div>
+                            <button type="submit" class="btn btn-dark">Odeslat</button>
+                            <span class="@submitResultStyle" style="margin-left: 10px">@submitResultMessage</span>
+                        </div>
+                    </div>
+                </div>
+
+            </EditForm>
+        </div>
+        <hr />
+    </div>
+
     <a target="_blank" href="https://www.youtube.com/user/Fanda39">
         <img src="img/youtube.png" />
     </a>
@@ -21,4 +111,39 @@
         <br />
         <small>© Bc. Tomáš Milostný 2017-@(DateTime.Now.Year)</small>
     </p>
-</div>
+</footer>
+
+@code {
+    OrderFormEntryAddModel formEntry = new();
+    bool gdpr = false;
+    string submitResultMessage = string.Empty;
+    string submitResultStyle = "d-none";
+
+    async Task SendOrder()
+    {
+        if (!gdpr)
+        {
+            submitResultMessage = "Musíte souhlasit se zpracováním osobních údajů.";
+            submitResultStyle = "text-danger";
+            return;
+        }
+        var response = await Http.PostAsJsonAsync(ApiEndpoints.OrderFormBaseUrl, formEntry);
+        if (response.IsSuccessStatusCode)
+        {
+            submitResultMessage = "Objednávka byla úspěšně odeslána.";
+            submitResultStyle = "text-success";
+            formEntry = new();
+            return;
+        }
+        submitResultMessage = "Při odesílání objednávky došlo k chybě.";
+        submitResultStyle = "text-danger";
+    }
+
+    void VideoCategoryChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int result))
+        {
+            formEntry.VideoCategory = (VideoCategoryType)result;
+        }
+    }
+}

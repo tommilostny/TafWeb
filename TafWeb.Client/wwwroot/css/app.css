@@ -165,8 +165,18 @@ a, .btn-link {
     display: none;
 }
 
-.bg-dark[type=search] {
+.bg-dark[type=search], .bg-dark[type=text], textarea.bg-dark, .bg-dark[type=date] {
     border: none;
+    transition: .3s;
+}
+
+.bg-dark[type=search]:focus, .bg-dark[type=text]:focus, textarea.bg-dark:focus, .bg-dark[type=date]:focus {
+    outline: 1px solid #444;
+    box-shadow: none;
+    transition: .3s;
+    -webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
 }
 
 .img-loading {
