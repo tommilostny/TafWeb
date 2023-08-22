@@ -21,13 +21,14 @@ public record OrderFormEntryAddModel
     [DateValidator]
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
+    [MaxLength(60, ErrorMessage = "Název místa nesmí být delší než 60 znaků.")]
     public string Place { get; set; } = string.Empty;
 
     private class DateValidator : ValidationAttribute
     {
         public override bool IsValid(object? value)
         {
-            return !(value is DateOnly date && date < DateOnly.FromDateTime(DateTime.Now));
+            return value is DateOnly date && date >= DateOnly.FromDateTime(DateTime.Now);
         }
 
         public override string FormatErrorMessage(string _)

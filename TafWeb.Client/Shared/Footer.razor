@@ -37,6 +37,7 @@
                         <div class="mb-4 ms-3 me-3">
                             <label for="place" class="form-label">Kde se celá věc uskuteční?</label>
                             <input @bind="formEntry.Place" type="text" id="place" class="form-control bg-dark text-white" />
+                            <ValidationMessage For="@(() => formEntry.Place)" />
                         </div>
                     </div>
                 </div>
