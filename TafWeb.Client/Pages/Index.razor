@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject HttpClient Http
-@inject OrderFormHeadlineProvider HeadlineProvider;
+@inject OrderFormHeadlineProvider HeadlineProvider
 
 @if (aboutUsMainPageModel is not null)
 {
@@ -80,6 +80,7 @@ else
         StateHasChanged();
 
         videoCategories = await Http.GetFromJsonAsync<IReadOnlyCollection<VideoCategoryListModel>>(ApiEndpoints.VideoCategoryBaseUrl);
+        await HeadlineProvider.FetchOrderFormHeadlineAsync();
         if (videoCategories is null)
             return;
 
@@ -94,8 +95,6 @@ else
                 StateHasChanged();
             }
         }
-        await HeadlineProvider.FetchOrderFormHeadlineAsync();
-        StateHasChanged();
     }
 
     private async Task<IReadOnlyCollection<VideoListModel>> GetVideosFromCategoryAsync(string category)

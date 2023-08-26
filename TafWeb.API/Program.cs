@@ -70,6 +70,20 @@ builder.Services.AddResponseCompression(options =>
     options.Providers.Add<GzipCompressionProvider>();
 });
 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddPolicy("AboutUsMainPage", policy =>
+    {
+        policy.Expire(TimeSpan.FromHours(1));
+        policy.Tag("AboutUs");
+    });
+    options.AddPolicy("AboutUsDetailPage", policy =>
+    {
+        policy.Expire(TimeSpan.FromMinutes(10));
+        policy.Tag("AboutUs");
+    });
+});
+
 var app = builder.Build();
 app.UseResponseCompression();
 
@@ -95,6 +109,7 @@ app.UseCors("TafWebCorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseOutputCache();
 
 app.MapControllers();
 

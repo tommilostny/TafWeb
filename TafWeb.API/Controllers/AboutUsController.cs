@@ -1,4 +1,6 @@
-﻿namespace TafWeb.API.Controllers;
+﻿using Microsoft.AspNetCore.OutputCaching;
+
+namespace TafWeb.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
@@ -6,15 +8,18 @@ public class AboutUsController : ControllerBase
 {
     private readonly ILogger<AboutUsController> _logger;
     private readonly IAboutUsService _aboutUsService;
+    private readonly IOutputCacheStore _cache;
 
-    public AboutUsController(ILogger<AboutUsController> logger, IAboutUsService aboutUsService)
+    public AboutUsController(ILogger<AboutUsController> logger, IAboutUsService aboutUsService, IOutputCacheStore cache)
     {
         _logger = logger;
         _aboutUsService = aboutUsService;
+        _cache = cache;
     }
 
     [HttpGet]
     [Route("main")]
+    [OutputCache(PolicyName = "AboutUsMainPage")]
     public async Task<ActionResult<AboutUsMainPageModel>> GetMainPageModelAsync()
     {
         try
@@ -31,6 +36,7 @@ public class AboutUsController : ControllerBase
 
     [HttpGet]
     [Route("detail")]
+    [OutputCache(PolicyName = "AboutUsDetailPage")]
     public async Task<ActionResult<AboutUsDetailModel>> GetDetailModelAsync()
     {
         try
@@ -52,6 +58,7 @@ public class AboutUsController : ControllerBase
         try
         {
             await _aboutUsService.UpdateAboutUsAsync(aboutUsEditModel);
+            await _cache.EvictByTagAsync("AboutUs", default);
             return Ok();
         }
         catch (Exception ex)

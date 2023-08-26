@@ -1,4 +1,10 @@
-﻿export function initVideoPlayer(element, autoPlay, dotnetInstance) {
+﻿/**
+ * @param {any} element
+ * @param {boolean} autoPlay
+ * @param {{ invokeMethodAsync: (method: string) => void; }} dotnetInstance
+ */
+export function initVideoPlayer(element, autoPlay, dotnetInstance) {
+	// @ts-ignore
 	const player = new Plyr(element, {
 		resetOnEnd: true,
 		ratio: autoPlay ? '19:9' : '21:9',
@@ -6,20 +12,16 @@
 		autoplay: autoPlay,
 		clickToPlay: true,
 	});
-	player.once('ready', event => {
-		const instance = event.detail.plyr;
+	player.once('ready', (/** @type {{ detail: { plyr: any; }; }} */ e) => {
+		const instance = e.detail.plyr;
 		instance.muted = autoPlay;
 		if (!autoPlay) {
-			hideLoading(dotnetInstance);
+			dotnetInstance.invokeMethodAsync('HideLoading');
 		}
 	});
 	if (autoPlay) {
 		player.once('playing', () => {
-			hideLoading(dotnetInstance);
+			dotnetInstance.invokeMethodAsync('HideLoading');
 		});
 	}
-}
-
-function hideLoading(dotnetInstance) {
-	dotnetInstance.invokeMethodAsync('HideLoading');
 }

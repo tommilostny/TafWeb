@@ -1,5 +1,6 @@
 ﻿@page "/kategorie/{CategoryRoute}"
 @inject HttpClient Http
+@inject OrderFormHeadlineProvider HeadlineProvider
 
 @if (categoryDetail is not null)
 {
@@ -47,7 +48,11 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        if (CategoryRoute is null)
+            return;
+
         categoryDetail = null;
+        await HeadlineProvider.FetchOrderFormHeadlineAsync(CategoryRoute);
         categoryDetail = await Http.GetFromJsonAsync<VideoCategoryDetailModel>(string.Format(ApiEndpoints.VideoCategoryDetailUrl, CategoryRoute));
         if (categoryDetail is not null)
         {

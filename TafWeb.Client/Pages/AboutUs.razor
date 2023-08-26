@@ -1,5 +1,6 @@
 ﻿@page "/o-nas"
 @inject HttpClient Http
+@inject OrderFormHeadlineProvider HeadlineProvider
 
 <PageTitle>O nás | Tvůrčí skupina T&amp;F</PageTitle>
 
@@ -69,6 +70,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await HeadlineProvider.FetchOrderFormHeadlineAsync();
         aboutUsDetailModel = await Http.GetFromJsonAsync<AboutUsDetailModel>(ApiEndpoints.AboutUsDetailUrl);
     }
 }
